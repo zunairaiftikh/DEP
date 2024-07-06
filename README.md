@@ -1,0 +1,2 @@
+# DEP
+static website development
