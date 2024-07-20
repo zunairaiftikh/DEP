@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - MugTales</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDo1QoY1vszjzzB3z255B6QmArXIibABJ8",
+            authDomain: "practice-972fd.firebaseapp.com",
+            projectId: "practice-972fd",
+            storageBucket: "practice-972fd.appspot.com",
+            messagingSenderId: "125680890263",
+            appId: "1:125680890263:web:84ecb7fd02291371b414d2",
+            measurementId: "G-DWMDHDXMRY"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        async function fetchCart() {
+            const response = await fetch('/api/cart');
+            const data = await response.json();
+            return data.cart;
+        }
+
+        function displayCart(cart) {
+            const cartList = document.getElementById('cart-list');
+            cartList.innerHTML = '';
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <img src="images/mug${item.productId}.jpg" alt="Product ${item.productId}" width="150px" class="cart-image">
+                    <h3>Product ${item.productId}</h3>
+                    <p>Quantity: ${item.quantity}</p>
+                `;
+                cartList.appendChild(cartItem);
+            });
+        }
+
+        async function placeOrder() {
+            const response = await fetch('/api/cart', {
+                method: 'DELETE'
+            });
+            const result = await response.json();
+            alert('Thank you for your order!');
+            displayCart([]);
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const cart = await fetchCart();
+            displayCart(cart);
+        });
+    </script>
+    <style>
+        body {
+            background-color: rgb(241, 147, 241);
+        }
+        h1 {
+            display: flex;
+            justify-content: center;
+        }
+        nav {
+            background-color: rgb(66, 5, 66);
+            color: white;
+            padding: 14px;
+            display: flex;
+            justify-content: space-evenly;
+            font-size: large;
+            font-weight: 600;
+        }
+        nav a {
+            color: white;
+        }
+        .btn{
+            margin: 23px;
+            display: flex;
+           justify-content: center;
+
+        }
+        .copy {
+            color: red;
+            display: flex;
+            /* justify-content: center;
+            text-align-last: justify;
+            display: inline-block; */
+            bottom: 0;
+        }
+        footer{
+            display: flex;
+            justify-content: center;
+        }
+        </style>
+</head>
+<body>
+    <header>
+        <h1>Your Cart</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="cart.html">Cart</a>
+        </nav>
+    </header>
+    <main>
+        <div class="cart-list" id="cart-list">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <button onclick="placeOrder()" class="btn">Place Order</button>
+    </main>
+    <footer>
+        <p class="copy">&copy; 2024 MugTales. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

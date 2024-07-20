@@ -1,54 +1,95 @@
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    box-sizing: border-box;
+    color: #333;
 }
 
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 1rem 0;
+    background-color: #3a3a3a;
+    color: white;
+    padding: 1em;
     text-align: center;
+    position: sticky;
+    top: 0;
+    width: 100%;
+}
+
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
 }
 
 main {
-    flex: 1;
-    padding: 20px;
+    padding: 2em;
+    text-align: center;
 }
 
-.hobbies {
+.hero {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.hero-image {
+    width: 30%;
+    height: auto;
+    border-radius: 8px;
+    margin: 10px;
+}
+
+h1, h2 {
+    color: #444;
+}
+
+.product-list, .cart-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.card {
-    background: #fff;
+.product-item, .cart-item {
     border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 10px;
-    padding: 20px;
+    padding: 10px;
+    width: 220px;
     text-align: center;
-    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.card img {
-    border-radius: 10px;
-    height: 200px;
+.product-item img, .cart-item img {
     width: 100%;
-    object-fit: cover;
+    height: auto;
+    border-radius: 4px;
+}
+
+.btn {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background-color: #555;
 }
 
 footer {
-    background: #333;
-    color: #fff;
+    background-color: #3a3a3a;
+    color: white;
+    padding: 1em;
     text-align: center;
-    padding: 1rem 0;
-    margin-top: auto;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
 }

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - MugTales</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDo1QoY1vszjzzB3z255B6QmArXIibABJ8",
+            authDomain: "practice-972fd.firebaseapp.com",
+            projectId: "practice-972fd",
+            storageBucket: "practice-972fd.appspot.com",
+            messagingSenderId: "125680890263",
+            appId: "1:125680890263:web:84ecb7fd02291371b414d2",
+            measurementId: "G-DWMDHDXMRY"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        async function fetchProducts() {
+            const response = await fetch('/api/products');
+            const data = await response.json();
+            return data.products;
+        }
+
+        function displayProducts(products) {
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = '';
+            products.forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.classList.add('product-item');
+                productItem.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" width="350px" class="product-image">
+                    <h3>${product.name}</h3>
+                    <p>Price: $${product.price}</p>
+                    <button onclick="addToCart(${product.id})" class="btn">Add to Cart</button>
+                `;
+                productList.appendChild(productItem);
+            });
+        }
+
+        async function addToCart(productId) {
+            const response = await fetch('/api/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId, quantity: 1 })
+            });
+            const result = await response.json();
+            alert(`Product ${productId} added to cart`);
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const products = await fetchProducts();
+            displayProducts(products);
+        });
+    </script>
+    <style>
+        body {
+            background-color: rgb(241, 147, 241);
+        }
+        h1 {
+            display: flex;
+            justify-content: center;
+        }
+        nav {
+            background-color: rgb(66, 5, 66);
+            color: white;
+            padding: 14px;
+            display: flex;
+            justify-content: space-evenly;
+            font-size: large;
+            font-weight: 600;
+        }
+        nav a {
+            color: white;
+        }
+        .product-item {
+            margin: 20px;
+            text-align: center;
+        }
+        .product-image {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        .copy {
+            color: red;
+            display: flex;
+            justify-content: center;
+            text-align-last: justify;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MugTales Products</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="cart.html">Cart</a>
+        </nav>
+    </header>
+    <main>
+        <div class="product-list" id="product-list">
+            <!-- Products will be dynamically added here -->
+        </div>
+    </main>
+    <footer>
+        <p class="copy">&copy; 2024 MugTales. All rights reserved.</p>
+    </footer>
+    <script src="script.js" type="module"></script>
+</body>
+</html>
